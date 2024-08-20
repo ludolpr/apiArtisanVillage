@@ -17,9 +17,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'user_name',
         'password',
+        'email',
+        'picture_user',
+        'id_company',
+        'id_role'
     ];
 
     /**
@@ -43,5 +46,32 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [
+            'role' => $this->id_role
+        ];
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function ticket()
+    {
+        return $this->belongsToMany(Ticket::class);
+    }
+    public function chat()
+    {
+        return $this->belongsToMany(Chat::class);
+    }
+    public function company()
+    {
+        return $this->hasMany(Company::class);
     }
 }
