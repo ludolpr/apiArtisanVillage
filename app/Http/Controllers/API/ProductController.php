@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name_product' => 'required|max:50',
-            'picture_product' => 'required|image|max:5000',
+            'picture_product' => 'required|image',
             'price' => 'required',
             'description_product' => 'required',
             'id_company' => 'required',
@@ -49,7 +49,11 @@ class ProductController extends Controller
             'id_category' => $request->id_category,
         ]);
 
-
+        $tags = $request->tags;
+        for ($i = 0; $i < count($tags); $i++) {
+            $product->tags()->attach($tags[$i]);
+        }
+        
         return response()->json([
             'status' => 'Success',
             'data' => $product,
@@ -71,7 +75,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name_product' => 'required|max:50',
-            'picture_product' => 'required|image|max:5000',
+            'picture_product' => 'required|image',
             'price' => 'required',
             'description_product' => 'required',
             'id_company' => 'required',
@@ -102,11 +106,15 @@ class ProductController extends Controller
             'id_company' => $request->id_company
         ]);
 
-        // Return the updated information in JSON
-        return response()->json([
-            'status' => 'Update OK',
-            'data' => $product,
-        ]);
+        if ($request->has('tags')) {
+            // Détach old tags
+            $product->tags()->detach();
+
+            // Attach news tags
+            foreach ($request->tags as $tag) {
+                $product->tags()->attach($tag);
+            }
+        }
     }
 
     /**

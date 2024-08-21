@@ -23,10 +23,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // user edit update delete
-    Route::get('user', [CategoryController::class, 'index']);
-    Route::get('user/{id}', [CategoryController::class, 'show']);
-    Route::post('user/{id}', [CategoryController::class, 'update']);
-    Route::delete('user/{id}', [CategoryController::class, 'delete']);
+    Route::get('user', [CategoryController::class, 'index'])->can('viewAny');
+    Route::get('user/{id}', [CategoryController::class, 'show'])->can('view');
+    Route::post('user/{id}', [CategoryController::class, 'update'])->can('update');
+    Route::delete('user/{id}', [CategoryController::class, 'delete'])->can('delete');
 
     // role
     Route::get(
@@ -35,39 +35,39 @@ Route::middleware('auth:api')->group(function () {
             CategoryController::class,
             'index'
         ]
-    );
-    Route::get('role/{id}', [CategoryController::class, 'show']);
-    Route::post('role', [CategoryController::class, 'store']);
-    Route::delete('role/{id}', [CategoryController::class, 'delete']);
-    Route::post('role/{id}', [CategoryController::class, 'update']);
+    )->can('viewAny');
+    Route::get('role/{id}', [CategoryController::class, 'show'])->can('view');
+    Route::post('role', [CategoryController::class, 'store'])->can('create');
+    Route::post('role/{id}', [CategoryController::class, 'update'])->can('update');
+    Route::delete('role/{id}', [CategoryController::class, 'delete'])->can('delete');
 
     // company
-    Route::get('company', [CategoryController::class, 'index']);
-    Route::get('company/{id}', [CategoryController::class, 'show']);
-    Route::post('company', [CategoryController::class, 'store']);
-    Route::delete('company/{id}', [CategoryController::class, 'delete']);
-    Route::post('company/{id}', [CategoryController::class, 'update']);
+    Route::get('company', [CategoryController::class, 'index'])->can('viewAny');
+    Route::get('company/{id}', [CategoryController::class, 'show'])->can('show');
+    Route::post('company', [CategoryController::class, 'store'])->can('create');
+    Route::post('company/{id}', [CategoryController::class, 'update'])->can('update');
+    Route::delete('company/{id}', [CategoryController::class, 'delete'])->can('delete');
 
     // product
-    Route::get('product', [CategoryController::class, 'index']);
-    Route::get('product/{id}', [CategoryController::class, 'show']);
-    Route::post('product', [CategoryController::class, 'store']);
-    Route::delete('product/{id}', [CategoryController::class, 'delete']);
-    Route::post('product/{id}', [CategoryController::class, 'update']);
+    Route::get('product', [CategoryController::class, 'index'])->can('viewAny');
+    Route::get('product/{id}', [CategoryController::class, 'show'])->can('store');
+    Route::post('product', [CategoryController::class, 'store'])->can('create');
+    Route::post('product/{id}', [CategoryController::class, 'update'])->can('update');
+    Route::delete('product/{id}', [CategoryController::class, 'delete'])->can('delete');
 
     // category
-    Route::get('category', [CategoryController::class, 'index']);
-    Route::get('category/{id}', [CategoryController::class, 'show']);
-    Route::post('category', [CategoryController::class, 'store']);
-    Route::delete('category/{id}', [CategoryController::class, 'delete']);
-    Route::post('category/{id}', [CategoryController::class, 'update']);
+    Route::get('category', [CategoryController::class, 'index'])->can('viewAny');
+    Route::get('category/{id}', [CategoryController::class, 'show'])->can('store');
+    Route::post('category', [CategoryController::class, 'store'])->can('create');
+    Route::post('category/{id}', [CategoryController::class, 'update'])->can('update');
+    Route::delete('category/{id}', [CategoryController::class, 'delete'])->can('delete');
 
     // tag
-    Route::get('tag', [CategoryController::class, 'index']);
-    Route::get('tag/{id}', [CategoryController::class, 'show']);
-    Route::post('tag', [CategoryController::class, 'store']);
-    Route::delete('tag/{id}', [CategoryController::class, 'delete']);
-    Route::post('tag/{id}', [CategoryController::class, 'update']);
+    Route::get('tag', [CategoryController::class, 'index'])->can('viewAny');
+    Route::get('tag/{id}', [CategoryController::class, 'show'])->can('store');
+    Route::post('tag', [CategoryController::class, 'store'])->can('create');
+    Route::post('tag/{id}', [CategoryController::class, 'update'])->can('update');
+    Route::delete('tag/{id}', [CategoryController::class, 'delete'])->can('delete');
 
     // chat
     Route::get(
@@ -77,22 +77,22 @@ Route::middleware('auth:api')->group(function () {
             'index'
         ]
     );
-    Route::get('chat/{id}', [CategoryController::class, 'show']);
-    Route::post('chat', [CategoryController::class, 'store']);
-    Route::delete('chat/{id}', [CategoryController::class, 'delete']);
-    Route::post('chat/{id}', [CategoryController::class, 'update']);
+    Route::get('chat/{id}', [CategoryController::class, 'show'])->can('store');
+    Route::post('chat', [CategoryController::class, 'store'])->can('create');
+    Route::post('chat/{id}', [CategoryController::class, 'update'])->can('update');
+    Route::delete('chat/{id}', [CategoryController::class, 'delete'])->can('delete');
 
     // message
-    Route::get('message', [CategoryController::class, 'index']);
-    Route::get('message/{id}', [CategoryController::class, 'show']);
-    Route::post('message', [CategoryController::class, 'store']);
-    Route::delete('message/{id}', [CategoryController::class, 'delete']);
-    Route::post('message/{id}', [CategoryController::class, 'update']);
+    Route::get('message', [CategoryController::class, 'index'])->can('viewAny');
+    Route::get('message/{id}', [CategoryController::class, 'show'])->can('store');
+    Route::post('message', [CategoryController::class, 'store'])->can('create');
+    Route::post('message/{id}', [CategoryController::class, 'update'])->can('update');
+    Route::delete('message/{id}', [CategoryController::class, 'delete'])->can('delete');
 
     // ticket
-    Route::get('ticket', [CategoryController::class, 'index']);
-    Route::get('ticket/{id}', [CategoryController::class, 'show']);
-    Route::post('ticket', [CategoryController::class, 'store']);
-    Route::delete('ticket/{id}', [CategoryController::class, 'delete']);
-    Route::post('ticket/{id}', [CategoryController::class, 'update']);
+    Route::get('ticket', [CategoryController::class, 'index'])->can('viewAny');
+    Route::get('ticket/{id}', [CategoryController::class, 'show'])->can('store');
+    Route::post('ticket', [CategoryController::class, 'store'])->can('create');
+    Route::post('ticket/{id}', [CategoryController::class, 'update'])->can('update');
+    Route::delete('ticket/{id}', [CategoryController::class, 'delete'])->can('delete');
 });
