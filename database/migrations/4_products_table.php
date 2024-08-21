@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('picture_product');
             $table->decimal('price', 5, 2);
             $table->string('description_product');
-            $table->bigInteger('id_category')->nullable();
+            $table->bigInteger('id_category');
             $table->bigInteger('id_company');
             $table->foreign('id_category')
                 ->references('id')

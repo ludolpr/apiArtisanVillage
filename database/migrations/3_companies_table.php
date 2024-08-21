@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('name_company');
             $table->string('description_company');
             $table->string('picture_company', 255);
-            $table->decimal('zipcode', 5, 0);
+            $table->string('zipcode');
             $table->string('phone');
             $table->string('address', 150);
-            $table->decimal('siret', 14, 0);
+            $table->bigInteger('siret');
             $table->string('town', 100);
             $table->string('lat');
             $table->string('long');

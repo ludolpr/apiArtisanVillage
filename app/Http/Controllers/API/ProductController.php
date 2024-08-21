@@ -25,11 +25,11 @@ class ProductController extends Controller
     {
         $request->validate([
             'name_product' => 'required|max:50',
-            'picture_product' => 'required|max:400',
-            'price' => 'required|image|max:5000',
-            'product_description' => 'required|max:155',
-            'id_category' => 'required',
-            'id_company' => 'required'
+            'picture_product' => 'required|image|max:5000',
+            'price' => 'required',
+            'description_product' => 'required',
+            'id_company' => 'required',
+            'id_category' => 'required'
         ]);
 
         $filename = "";
@@ -41,11 +41,12 @@ class ProductController extends Controller
             $request->file('picture_product')->storeAs('public/uploads/products', $filename);
         }
 
-        $product = Product::create([
-            'name_product' => $request->name_escape,
+        $product = Product::create(['name_product' => $request->name_product,
             'picture_product' => $filename,
             'price' => $request->price,
-            'product_description' => $request->product_description,
+            'description_product' => $request->description_product,
+            'id_company' => $request->id_company,
+            'id_category' => $request->id_category,
         ]);
 
 
@@ -70,11 +71,11 @@ class ProductController extends Controller
     {
         $request->validate([
             'name_product' => 'required|max:50',
-            'picture_product' => 'sometimes|image|max:5000',
-            'price' => 'required|image|max:5000',
-            'product_description' => 'required|max:155',
-            'id_category' => 'required',
-            'id_company' => 'required'
+            'picture_product' => 'required|image|max:5000',
+            'price' => 'required',
+            'description_product' => 'required',
+            'id_company' => 'required',
+            'id_category' => 'required'
         ]);
 
         if ($request->hasFile('picture_product')) {
@@ -96,7 +97,7 @@ class ProductController extends Controller
             'name_product' => $request->name_product,
             'picture_product' =>  $filename,
             'price' => $request->price,
-            'product_description' => $request->product_description,
+            'description_product' => $request->description_product,
             'id_category' => $request->id_category,
             'id_company' => $request->id_company
         ]);

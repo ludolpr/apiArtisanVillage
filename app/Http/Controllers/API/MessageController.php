@@ -24,7 +24,7 @@ class MessageController extends Controller
     {
 
         $request->validate([
-            'message_content' => 'required|max:50',
+            'message_content' => 'required',
             'id_chat' => 'required',
         ]);
 
@@ -54,7 +54,7 @@ class MessageController extends Controller
     public function update(Request $request, Message $message)
     {
         $request->validate([
-            'message_content' => 'required|max:50',
+            'message_content' => 'required',
             'id_chat' => 'required',
         ]);
 

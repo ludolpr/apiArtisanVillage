@@ -25,11 +25,13 @@ class TicketController extends Controller
         $request->validate([
             'title' => 'required|max:50',
             'ticket_content' => 'required|max:400',
+            'id_user' => 'required'
         ]);
 
         $ticket = Ticket::create([
             'title' => $request->title,
-            'ticket_content' => $request->ticket_content
+            'ticket_content' => $request->ticket_content,
+            'id_user' => $request->id_user
         ]);
 
         // JSON response
@@ -52,12 +54,13 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        $request->validate([
-            'title' => 'required|max:50',
+        $request->validate(['title' => 'required|max:50',
             'ticket_content' => 'required|max:400',
+            'id_user' => 'required',
+
         ]);
 
-        $v->update($request->all());
+        $ticket->update($request->all());
 
         return response()->json([
             "status" => "Mise à jour avec succèss",

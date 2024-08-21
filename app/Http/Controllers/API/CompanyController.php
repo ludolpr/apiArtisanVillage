@@ -58,6 +58,7 @@ class CompanyController extends Controller
             'town' => $request->town,
             'lat' => $request->lat,
             'long' => $request->long,
+            // 'id_user' => auth()->id(),
             'id_user' => $request->id_user,
         ]);
 
@@ -95,7 +96,7 @@ class CompanyController extends Controller
             'id_user' => 'required',
         ]);
 
-        if ($request->hasFile('picture_product')) {
+        if ($request->hasFile('picture_company')) {
             // Delete old file
             if ($company->picture_company) {
                 Storage::delete('public/uploads/companies/' . $company->picture_company);

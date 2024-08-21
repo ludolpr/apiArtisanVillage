@@ -23,13 +23,13 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name_role' => 'required|max:50',
-            'description_role' => 'required|max:400',
+            'name_category' => 'required|max:50',
+            'description_category' => 'required|max:400',
         ]);
 
         $category = Category::create([
-            'name_role' => $request->name_role,
-            'description_role' => $request->description_role
+            'name_category' => $request->name_category,
+            'description_category' => $request->description_category
 
         ]);
 
@@ -54,8 +54,8 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name_role' => 'required|max:50',
-            'description_role' => 'required|max:400',
+            'name_category' => 'required|max:50',
+            'description_category' => 'required|max:400',
         ]);
 
         $category->update($request->all());

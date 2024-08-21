@@ -20,6 +20,7 @@ class Company extends Model
         'town',
         'lat',
         'long',
+        'id_user'
     ];
 
     public function product()

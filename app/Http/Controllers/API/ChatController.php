@@ -28,10 +28,9 @@ class ChatController extends Controller
             'id_user' =>  'required'
         ]);
 
-        $chat = Chat::create([
-            'name_chat' => $request->name_role,
+        $chat = Chat::create(['name_chat' => $request->name_chat,
             'created_date' => $request->created_date,
-            'id_user' => $request->id_chat
+            'id_user' => $request->id_user
 
         ]);
 
