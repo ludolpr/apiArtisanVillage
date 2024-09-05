@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -62,6 +63,12 @@ class CompanyController extends Controller
             'id_user' => $request->id_user,
         ]);
 
+        // Changement du rôle de l'utilisateur
+        $user = User::find($request->id_user);
+        if ($user && $user->id_role == 1) {
+            $user->id_role = 2;
+            $user->save();
+        }
 
         return response()->json([
             'status' => 'Success',

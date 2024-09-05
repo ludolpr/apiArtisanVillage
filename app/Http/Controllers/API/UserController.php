@@ -10,8 +10,9 @@ class UserController extends Controller
     {
         $this->user = $user;
     }
-    public function currentUser()
+    public function currentUser(Request $request)
     {
+        $user = $request->user();
         return response()->json([
             'meta' => [
                 'code' => 200,
@@ -21,6 +22,7 @@ class UserController extends Controller
             'data' => [
                 'user' => auth()->user(),
             ],
+           
         ]);
     }
 }
