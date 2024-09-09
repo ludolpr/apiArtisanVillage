@@ -26,10 +26,11 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // user edit update delete
-    Route::get('user', [UserController::class, 'index']);
-    Route::get('user/{user}', [UserController::class, 'show']);
-    Route::put('user/{user}', [UserController::class, 'update']);
-    Route::delete('user/{user}', [UserController::class, 'destroy']);
+    Route::get('users', [UserController::class, 'index']);
+    Route::post('users', [UserController::class, 'store']);
+    Route::get('users/{user}', [UserController::class, 'show']);
+    Route::put('users/{user}', [UserController::class, 'update']);
+    Route::delete('users/{user}', [UserController::class, 'destroy']);
 
     // role
     Route::get(
