@@ -31,7 +31,7 @@ class ProductController extends Controller
             'id_company' => 'required',
             'id_category' => 'required'
         ]);
-
+    
         $filename = "";
         if ($request->hasFile('picture_product')) {
             $filenameWithExt = $request->file('picture_product')->getClientOriginalName();
@@ -41,7 +41,8 @@ class ProductController extends Controller
             $request->file('picture_product')->storeAs('public/uploads/products', $filename);
         }
 
-        $product = Product::create(['name_product' => $request->name_product,
+        $product = Product::create([
+            'name_product' => $request->name_product,
             'picture_product' => $filename,
             'price' => $request->price,
             'description_product' => $request->description_product,
@@ -49,16 +50,20 @@ class ProductController extends Controller
             'id_category' => $request->id_category,
         ]);
 
-        $tags = $request->tags;
-        for ($i = 0; $i < count($tags); $i++) {
-            $product->tags()->attach($tags[$i]);
+        // Check if $tags exists and is an array before looping through
+        if ($request->has('tags') && is_array($request->tags)) {
+            $tags = $request->tags;
+            for ($i = 0; $i < count($tags); $i++) {
+                $product->tags()->attach($tags[$i]);
+            }
         }
-        
+    
         return response()->json([
             'status' => 'Success',
             'data' => $product,
         ]);
     }
+    
 
     /**
      * Display the specified resource.
