@@ -9,44 +9,46 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class VerifyEmail extends Mailable
+class ContactMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $verificationUrl;
     /**
      * Create a new message instance.
      */
-    public function __construct($verificationUrl)
+    use Queueable, SerializesModels;
+
+    public $details;
+
+    public function __construct($details)
     {
-        $this->verificationUrl = $verificationUrl;
+        $this->details = $details;
     }
 
     public function build()
     {
-
-        return $this->view('verify')
-            ->with(['verificationUrl' => $this->verificationUrl]);
+        return $this->subject('Nouveau message de contact')
+            ->view('emails.contact');
     }
-
-    public function content(): Content
-    {
-        return new Content(
-            view: 'verify',
-        );
-    }
-
-
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verification de votre email',
+            subject: 'Contact Mail',
         );
     }
 
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'view.name',
+        );
+    }
 
     /**
      * Get the attachments for the message.

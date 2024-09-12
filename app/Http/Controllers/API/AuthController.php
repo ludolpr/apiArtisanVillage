@@ -61,14 +61,14 @@ class AuthController extends Controller
         $token = auth()->login($user);
 
         // Generate a signed URL for email verification
-        $verificationUrl = URL::temporarySignedRoute(
+        $ficheUrl = URL::temporarySignedRoute(
             'verify',
             Carbon::now()->addMinutes(180),
             ['id' => $user->id]
         );
 
         // Send the verification email
-        Mail::to($user->email)->send(new VerifyEmail($verificationUrl));
+        Mail::to($user->email)->send(new VerifyEmail($ficheUrl));
 
         // Return a JSON response with the token
         return response()->json([

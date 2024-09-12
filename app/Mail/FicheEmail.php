@@ -9,44 +9,43 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class VerifyEmail extends Mailable
+class FicheEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $verificationUrl;
     /**
      * Create a new message instance.
      */
-    public function __construct($verificationUrl)
+    use Queueable, SerializesModels;
+
+    public $ficheUrl;
+
+    public function __construct($ficheUrl)
     {
-        $this->verificationUrl = $verificationUrl;
+        $this->ficheUrl = $ficheUrl;
     }
 
     public function build()
     {
-
-        return $this->view('verify')
-            ->with(['verificationUrl' => $this->verificationUrl]);
+        return $this->view('emails.sheetok')
+            ->with(['ficheUrl' => $this->ficheUrl]);
     }
 
-    public function content(): Content
-    {
-        return new Content(
-            view: 'verify',
-        );
-    }
-
-
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verification de votre email',
+            subject: "Confirmation de création de votre fiche d'entreprise",
         );
     }
-
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'sheetok',
+        );
+    }
 
     /**
      * Get the attachments for the message.

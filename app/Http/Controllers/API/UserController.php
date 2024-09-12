@@ -120,7 +120,7 @@ class UserController extends Controller
             $request->file('picture_user')->storeAs('public/uploads/users', $filename);
             $user->picture_user = $filename;
         }
-        // Update user data
+        // Update user  data
         $user->update([
             'name_user' => $request->name_user,
             'email' => $request->email,

@@ -11,6 +11,7 @@ use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\TicketController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,18 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 // Route pour afficher la page de vérification des emails
 route::get('/verify/email/{id}', [AuthController::class, 'verifyEmail'])->name('verify');
+route::post('/send-email', [MailController::class, 'sendEmail']);
+
+// route entreprise visible par tous
+Route::get('company', [CompanyController::class, 'index']);
+Route::get('/company/latestid', [CompanyController::class, 'getLatestIds']);
+Route::get(
+    'company/{company}',
+    [CompanyController::class, 'show']
+);
+Route::get('users', [UserController::class, 'index']);
+
+
 // Seulement accessible via le JWT
 Route::middleware('auth:api')->group(function () {
     // user current and logout
@@ -26,7 +39,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // user edit update delete
-    Route::get('users', [UserController::class, 'index']);
     Route::post('users', [UserController::class, 'store']);
     Route::get('users/{user}', [UserController::class, 'show']);
     Route::put('users/{user}', [UserController::class, 'update']);
@@ -43,11 +55,11 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('role/{role}', [RoleController::class, 'destroy']);
 
     // company
-    Route::get('company', [CompanyController::class, 'index']);
-    Route::get(
-        'company/{company}',
-        [CompanyController::class, 'show']
-    );
+
+    route::get('/verify/email/{id}', [AuthController::class, 'verifyEmail'])->name('verify');
+    // Route pour envoyer l'email de confirmation de fiche creer
+    // route::post('company/verify', [CompanyController::class, 'sendEmail'])->name('sheetok');
+    // Route::post('company', [CompanyController::class, 'sendEmail'])->name('sheetok');
     Route::post('company', [CompanyController::class, 'store']);
     Route::put(
         'company/{company}',
