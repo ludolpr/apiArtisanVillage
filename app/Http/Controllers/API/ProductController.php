@@ -12,11 +12,31 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         $product = Product::all();
         return response()->json($product);
     }
+
+    public function indexWithTags()
+    {
+        $productstags = Product::with('tags')->get();
+
+        if ($productstags->isEmpty()) {
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'No products found',
+                'data' => [],
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'Success',
+            'data' => $productstags,
+        ]);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -25,7 +45,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name_product' => 'required|max:50',
-            'picture_product' => 'required|image',
+            'picture_product' => 'required|image|max:10000',
             'price' => 'required',
             'description_product' => 'required',
             'id_company' => 'required',
@@ -40,7 +60,7 @@ class ProductController extends Controller
             $filename = $filename . '_' . time() . '.' . $extension;
             $request->file('picture_product')->storeAs('public/uploads/products', $filename);
         }
-
+    
         $product = Product::create([
             'name_product' => $request->name_product,
             'picture_product' => $filename,
@@ -50,12 +70,9 @@ class ProductController extends Controller
             'id_category' => $request->id_category,
         ]);
 
-        // Check if $tags exists and is an array before looping through
-        if ($request->has('tags') && is_array($request->tags)) {
-            $tags = $request->tags;
-            for ($i = 0; $i < count($tags); $i++) {
-                $product->tags()->attach($tags[$i]);
-            }
+        if ($request->has('tags')) {
+            $tags = explode(',', $request->tags);
+            $product->tags()->attach($tags);
         }
     
         return response()->json([
@@ -64,14 +81,34 @@ class ProductController extends Controller
         ]);
     }
     
+    
 
     /**
      * Display the specified resource.
      */
+
     public function show(Product $product)
     {
         return response()->json($product);
     }
+
+    public function showWithTags($id)
+    {
+        $product = Product::with('tags')->find($id);
+
+        if (!$product) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => 'Product not found',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'Success',
+            'data' => $product,
+        ]);
+    }
+    
 
     /**
      * Update the specified resource in storage.
@@ -125,8 +162,11 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request, Product $product)
     {
+        if (($request->has('tags'))) {
+            $product->tags()->detach();
+        }
         $product->delete();
 
         return response()->json([

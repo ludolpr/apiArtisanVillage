@@ -13,9 +13,10 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tag = Tag::all();
-        return response()->json($tag);
+        $tags = Tag::orderBy('name_tag', 'asc')->get();
+        return response()->json($tags);
     }
+    
 
     /**
      * Store a newly created resource in storage.

@@ -22,15 +22,34 @@ Route::post('/login', [AuthController::class, 'login']);
 route::get('/verify/email/{id}', [AuthController::class, 'verifyEmail'])->name('verify');
 route::post('/send-email', [MailController::class, 'sendEmail']);
 
-// route entreprise visible par tous
+// route entreprise visible by all
 Route::get('company', [CompanyController::class, 'index']);
 Route::get('/company/latestid', [CompanyController::class, 'getLatestIds']);
 Route::get(
     'company/{company}',
     [CompanyController::class, 'show']
 );
+
+// users route
 Route::get('users', [UserController::class, 'index']);
 
+// product route 
+Route::get('product', [ProductController::class, 'index']);
+Route::get('productstags', [ProductController::class, 'indexWithTags']);
+Route::get(
+    'product/{product}',
+    [ProductController::class, 'show']
+);
+Route::get(
+    'productstags/{product}',
+    [ProductController::class, 'showWithTags']
+);
+// tag route 
+Route::get('tag', [TagController::class, 'index']);
+Route::get('tag/{tag}', [TagController::class, 'show']);
+// category
+Route::get('category', [CategoryController::class, 'index']);
+Route::get('category/{category}', [CategoryController::class, 'show']);
 
 // Seulement accessible via le JWT
 Route::middleware('auth:api')->group(function () {
@@ -68,11 +87,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('company/{company}', [CompanyController::class, 'destroy']);
 
     // product
-    Route::get('product', [ProductController::class, 'index']);
-    Route::get(
-        'product/{product}',
-        [ProductController::class, 'show']
-    );
+   
     Route::post('product', [ProductController::class, 'store']);
     Route::put(
         'product/{product}',
@@ -81,15 +96,11 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('product/{product}', [ProductController::class, 'destroy']);
 
     // category
-    Route::get('category', [CategoryController::class, 'index']);
-    Route::get('category/{category}', [CategoryController::class, 'show']);
     Route::post('category', [CategoryController::class, 'store']);
     Route::put('category/{category}', [CategoryController::class, 'update']);
     Route::delete('category/{category}', [CategoryController::class, 'destroy']);
 
     // tag
-    Route::get('tag', [TagController::class, 'index']);
-    Route::get('tag/{tag}', [TagController::class, 'show']);
     Route::post('tag', [TagController::class, 'store']);
     Route::put('tag/{tag}', [TagController::class, 'update']);
     Route::delete('tag/{tag}', [TagController::class, 'destroy']);

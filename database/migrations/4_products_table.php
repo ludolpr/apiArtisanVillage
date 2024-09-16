@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name_product');
             $table->string('picture_product');
-            $table->decimal('price', 5, 2);
+            $table->decimal('price', 9, 2);
             $table->string('description_product');
             $table->bigInteger('id_category');
             $table->bigInteger('id_company');

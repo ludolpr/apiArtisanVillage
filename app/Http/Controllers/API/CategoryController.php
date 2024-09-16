@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
+        $category = Category::orderBy('name_category', 'asc')->get();
         return response()->json($category);
     }
 
