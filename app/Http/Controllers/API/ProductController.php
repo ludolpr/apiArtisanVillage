@@ -51,7 +51,7 @@ class ProductController extends Controller
             'id_company' => 'required',
             'id_category' => 'required'
         ]);
-    
+       
         $filename = "";
         if ($request->hasFile('picture_product')) {
             $filenameWithExt = $request->file('picture_product')->getClientOriginalName();
@@ -117,13 +117,14 @@ class ProductController extends Controller
     {
         $request->validate([
             'name_product' => 'required|max:50',
-            'picture_product' => 'required|image',
+            'picture_product' => 'nullable',
             'price' => 'required',
             'description_product' => 'required',
             'id_company' => 'required',
-            'id_category' => 'required'
+            'id_category' => 'required',
         ]);
 
+        $filename =  $product->picture_product;
         if ($request->hasFile('picture_product')) {
             // Delete old file
             if ($product->picture_product) {
@@ -147,15 +148,17 @@ class ProductController extends Controller
             'id_category' => $request->id_category,
             'id_company' => $request->id_company
         ]);
+        
+
 
         if ($request->has('tags')) {
-            // Détach old tags
-            $product->tags()->detach();
+            // Je récupère mes tags dans le formulaire
+            $tags = $request->tags;
 
-            // Attach news tags
-            foreach ($request->tags as $tag) {
-                $product->tags()->attach($tag);
-            }
+            // Je les mets dans un tableau
+            $tags_id = explode(",", $tags);
+            // detach old tags and attch new tags
+            $product->tags()->sync($tags_id);
         }
     }
 
@@ -167,6 +170,8 @@ class ProductController extends Controller
         if (($request->has('tags'))) {
             $product->tags()->detach();
         }
+        $product->save();
+
         $product->delete();
 
         return response()->json([

@@ -11,7 +11,7 @@ use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\TicketController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Auth\EmailVerificationController;
-use App\Http\Controllers\MailController;
+// use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +20,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 // Route pour afficher la page de vérification des emails
 route::get('/verify/email/{id}', [AuthController::class, 'verifyEmail'])->name('verify');
-route::post('/send-email', [MailController::class, 'sendEmail']);
+// route::post('/send-email', [MailController::class, 'sendEmail']);
 
 // route entreprise visible by all
 Route::get('company', [CompanyController::class, 'index']);
