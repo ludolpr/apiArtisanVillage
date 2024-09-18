@@ -70,10 +70,13 @@ class ProductController extends Controller
             'id_category' => $request->id_category,
         ]);
 
-        if ($request->has('tags')) {
+        if ($request->has('tags') && !empty($request->tags)) {
             $tags = explode(',', $request->tags);
-            $product->tags()->attach($tags);
+            $product->tags()->sync($tags);
+        } else {
+            $product->tags()->sync([]);
         }
+        
     
         return response()->json([
             'status' => 'Success',
