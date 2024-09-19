@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ChatController;
 use App\Http\Controllers\API\CompanyController;
+use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\MessageController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\RoleController;
@@ -11,7 +12,6 @@ use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\TicketController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Auth\EmailVerificationController;
-// use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +20,9 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 // Route pour afficher la page de vérification des emails
 route::get('/verify/email/{id}', [AuthController::class, 'verifyEmail'])->name('verify');
-// route::post('/send-email', [MailController::class, 'sendEmail']);
+
+route::post('/contact', [ContactController::class, 'contactEmail'])->name('contact');
+
 
 // route entreprise visible by all
 Route::get('company', [CompanyController::class, 'index']);

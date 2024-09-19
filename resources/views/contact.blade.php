@@ -1,10 +1,10 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Votre fiche a bien été verifiée</title>
+    <title>{{ $details['subject'] }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,11 +58,17 @@
 
 <body>
     <div class="container">
-        <h1>Votre fiche a bien été verifiée</h1>
-        <p>Nous vous remercions de la confiance accordé, vous pouvez maintenant ajouter des produits</p>
-        <a href="http://localhost:3000/" class="button">Revenir au site</a>
-        <p class="footer">Si vous n'avez pas demandé cette inscription, vous pouvez ignorer cet email.</p>
+        <h1>{{ $details['subject'] }}</h1>
+        <br>
+        <p><strong>Nom: </strong>{{ $details['name'] }}</p>
+        <p><strong>Email: </strong>{{ $details['email'] }}</p>
+        <p>{{ $details['message'] }}</p>
+        <br>
+
+        <p class="footer">Ceci est un email envoyé depuis le site artisanvillage.fr</p>
+        </p>
+        <a class="button" href="https://artisanvillage.fr">Retour au site</a>
     </div>
 </body>
 
-</html> -->
+</html>

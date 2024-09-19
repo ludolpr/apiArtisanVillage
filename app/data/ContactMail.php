@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class FicheEmail extends Mailable
+class ContactMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,32 +18,35 @@ class FicheEmail extends Mailable
      */
     use Queueable, SerializesModels;
 
-    public $ficheUrl;
+    public $details;
 
-    public function __construct($ficheUrl)
+    public function __construct($details)
     {
-        $this->ficheUrl = $ficheUrl;
+        $this->details = $details;
     }
 
     public function build()
     {
-        return $this->view('emails.sheetok')
-            ->with(['ficheUrl' => $this->ficheUrl]);
+        return $this->subject('Nouveau message de contact')
+            ->view('emails.contact');
     }
-
+    /**
+     * Get the message envelope.
+     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: "Confirmation de création de votre fiche d'entreprise",
+            subject: 'Contact Mail',
         );
     }
+
     /**
      * Get the message content definition.
      */
     public function content(): Content
     {
         return new Content(
-            view: 'sheetok',
+            view: 'view.name',
         );
     }
 
