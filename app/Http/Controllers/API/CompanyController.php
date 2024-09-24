@@ -174,25 +174,6 @@ class CompanyController extends Controller
             'status' => 'Delete OK',
         ]);
     }
-    public function sendEmail(Request $request, $id)
-    {
-        // Verify if the URL has a valid signature
-        if (!$request->hasValidSignature()) {
-            return redirect()->to('http://localhost:3000/email/verify?status=invalid_link');
-        }
 
-        // Find the user by ID
-        $user = User::find($id);
-
-        if (!$user) {
-            return redirect()->to('http://localhost:3000/email/verify?status=user_not_found');
-        }
-
-        // Send a confirmation email to the user
-        Mail::to($user->email)->send(new FicheEmail($request->get('ficheUrl')));
-
-        // Redirect to a confirmation or success page
-        return redirect()->to('http://localhost:3000/email/verify?status=created');
-    }
 
 }

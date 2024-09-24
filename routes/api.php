@@ -11,13 +11,13 @@ use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TagController;
 use App\Http\Controllers\API\TicketController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\Auth\EmailVerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Accessible à tous
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
 // Route pour afficher la page de vérification des emails
 route::get('/verify/email/{id}', [AuthController::class, 'verifyEmail'])->name('verify');
 
@@ -77,7 +77,7 @@ Route::middleware('auth:api')->group(function () {
 
     // company
 
-    route::get('/verify/email/{id}', [AuthController::class, 'verifyEmail'])->name('verify');
+    // route::get('/verify/email/{id}', [AuthController::class, 'verifyEmail'])->name('verify');
     // Route pour envoyer l'email de confirmation de fiche creer
     // route::post('company/verify', [CompanyController::class, 'sendEmail'])->name('sheetok');
     // Route::post('company', [CompanyController::class, 'sendEmail'])->name('sheetok');

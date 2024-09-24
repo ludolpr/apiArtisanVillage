@@ -106,6 +106,7 @@ class UserController extends Controller
             'name_user' => 'required',
             'email' => 'required',
             'id_role' => 'required',
+            'picture_user' => 'nullable',
         ]);
         $filename =  $user->picture_user;
         // Handle file upload and delete old file
