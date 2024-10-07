@@ -169,11 +169,17 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         $company->delete();
+        $user = Auth::user();
+        if ($user->id_role == 2) {
+            $user->id_role = 1;
+            $user->save();
+        }
 
         return response()->json([
             'status' => 'Delete OK',
         ]);
     }
+
 
 
 }

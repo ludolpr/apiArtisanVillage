@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
+
 class UserController extends Controller
 {
     public function __construct(User $user)
@@ -42,50 +43,6 @@ class UserController extends Controller
         // Return the users as a JSON response
         return response()->json($users, 200);
     }
-
-    // /**
-    //  * Store a newly created user in the database.
-    //  */
-    // public function store(Request $request)
-    // {
-    //     // Validate the request inputs
-    //     $request->validate([
-    //         'name_user' => 'required|max:100',
-    //         'email' => 'required|email|unique:users,email',
-    //         'password' => 'required|min:8',
-    //         'picture_user' => 'required|image|max:5000',
-    //         'id_role' => 'sometimes|integer|exists:roles,id',
-    //     ]);
-
-    //     // Handle file upload
-    //     $filename = "";
-    //     if ($request->hasFile('picture_user')) {
-    //         $filenameWithExt = $request->file('picture_user')->getClientOriginalName();
-    //         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-    //         $extension = $request->file('picture_user')->getClientOriginalExtension();
-    //         $filename = $filename . '_' . time() . '.' . $extension;
-    //         $request->file('picture_user')->storeAs('public/uploads/users', $filename);
-    //     }
-
-
-    //     // Default role ID if not provided
-    //     $roleId = $request->id_role ?? 1;
-
-    //     // Create the user in the database
-    //     $user = User::create([
-    //         'name_user' => $request->name_user,
-    //         'email' => $request->email,
-    //         'password' => Hash::make($request->password),
-    //         'picture_user' => $filename,
-    //         'id_role' => $roleId,
-    //     ]);
-
-    //     // Return the created user in JSON
-    //     return response()->json([
-    //         'status' => 'Success',
-    //         'data' => $user,
-    //     ], 201);
-    // }
 
     /**
      * Display a specific user.
