@@ -67,7 +67,7 @@
 
         <p class="footer">Ceci est un email envoyé depuis le site artisanvillage.fr</p>
         </p>
-        <a class="button" href="https://artisanvillage.fr">Retour au site</a>
+        <a class="button" href="artisanvillage.fr">Retour au site</a>
     </div>
 </body>
 

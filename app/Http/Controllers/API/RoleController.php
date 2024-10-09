@@ -6,10 +6,31 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Schema(
+ *     schema="Role",
+ *     type="object",
+ *     required={"name_role"},
+ *     @OA\Property(property="id", type="integer", example=1, description="ID du rôle"),
+ *     @OA\Property(property="name_role", type="string", example="Admin", description="Nom du rôle"),
+ *     @OA\Property(property="created_at", type="string", format="date-time", description="Date de création"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date de mise à jour"),
+ * )
+ */
+
 class RoleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/role",
+     *     summary="Obtenir la liste des rôles",
+     *     tags={"Roles"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste des rôles",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Role"))
+     *     )
+     * )
      */
     public function index()
     {
@@ -18,27 +39,62 @@ class RoleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/role",
+     *     summary="Créer un nouveau rôle",
+     *     tags={"Roles"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name_role"},
+     *             @OA\Property(property="name_role", type="string", example="Admin", description="Nom du rôle")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Rôle créé avec succès",
+     *         @OA\JsonContent(ref="#/components/schemas/Role")
+     *     )
+     * )
      */
-    public function store(Request $request, Role $roles)
+    public function store(Request $request)
     {
         $request->validate([
             'name_role' => 'required|max:50',
         ]);
 
-        $roles = Role::create([
-            'name_role' => $request->name_role
+        $role = Role::create([
+            'name_role' => $request->name_role,
         ]);
 
-        // JSON response
         return response()->json([
             'status' => 'Success',
-            'data' => $roles,
-        ]);
+            'data' => $role,
+        ], 201);
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/role/{id}",
+     *     summary="Afficher un rôle spécifique",
+     *     tags={"Roles"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID du rôle",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Détails du rôle",
+     *         @OA\JsonContent(ref="#/components/schemas/Role")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Rôle non trouvé"
+     *     )
+     * )
      */
     public function show(Role $role)
     {
@@ -46,7 +102,34 @@ class RoleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/role/{id}",
+     *     summary="Mettre à jour un rôle",
+     *     tags={"Roles"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID du rôle",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name_role"},
+     *             @OA\Property(property="name_role", type="string", example="Admin", description="Nom du rôle")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Rôle mis à jour avec succès",
+     *         @OA\JsonContent(ref="#/components/schemas/Role")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Rôle non trouvé"
+     *     )
+     * )
      */
     public function update(Request $request, Role $role)
     {
@@ -56,14 +139,32 @@ class RoleController extends Controller
 
         $role->update($request->all());
 
-        return response()->json([
-            "status" => "Mise à jour avec succèss",
+        return response()->json(["status" => "Mise à jour avec succès",
             "data" => $role
         ]);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/role/{id}",
+     *     summary="Supprimer un rôle",
+     *     tags={"Roles"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID du rôle",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Rôle supprimé avec succès"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Rôle non trouvé"
+     *     )
+     * )
      */
     public function destroy(Role $role)
     {

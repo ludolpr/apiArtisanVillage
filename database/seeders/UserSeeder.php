@@ -17,26 +17,8 @@ class UserSeeder extends Seeder
     {
 
         User::create([
-            'name_user' => 'ludolprUser',
-            'password' => Hash::make('Azertyuiop1$'),
-            'email' => 'user@gmail.com',
-            'email_verified_at' => now(),
-            'picture_user' => 'user.jpg',
-            'remember_token' => Str::random(10),
-            'id_role' => 1,
-        ]);
-        User::create([
-            'name_user' => 'ludolprArtisan',
-            'password' => Hash::make('Azertyuiop1$'),
-            'email' => 'artisan@gmail.com',
-            'email_verified_at' => now(),
-            'picture_user' => 'user.jpg',
-            'remember_token' => Str::random(10),
-            'id_role' => 2,
-        ]);
-        User::create([
-            'name_user' => 'ludolprAdmin',
-            'password' => Hash::make('Azertyuiop1$'),
+            'name_user' => 'Ludolpr',
+            'password' => Hash::make('Ll11oxyuuddoo-'),
             'email' => 'ludolpr@gmail.com',
             'email_verified_at' => now(),
             'picture_user' => 'user.jpg',
@@ -44,6 +26,6 @@ class UserSeeder extends Seeder
             'id_role' => 3,
         ]);
         // Création de 8 utilisateurs aléatoires
-        User::factory(8)->create();
+        // User::factory(8)->create();
     }
 }

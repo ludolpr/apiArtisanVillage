@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use OpenApi\Annotations as OA;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use Illuminate\Http\Request;

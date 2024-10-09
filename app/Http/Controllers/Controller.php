@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-abstract class Controller
-{
-    /**
-     * @OA\Info(
-     *     version="1.0.0",
-     *     title="API Documentation",
-     *     description="Description de votre API",
-     *     @OA\Contact(
-     *         email="ludolpr@gmail.com"
-     *     ),
-     *     @OA\License(
-     *         name="Ludolpr",
-     *         url="http://artisanvillage"
-     *     )
-     * )
-     */
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Info(
+ *     title="Artisan Village API",
+ *     version="1.0.0",
+ *     description="Documentation de l'API pour Artisan Village.",
+ *     @OA\Contact(
+ *         name="Ludolpr",
+ *         email="ludolpr@gmail.com"
+ *     )
+ * )
+ */
+abstract class Controller {
+   
 }

@@ -76,11 +76,6 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('role/{role}', [RoleController::class, 'destroy']);
 
     // company
-
-    // route::get('/verify/email/{id}', [AuthController::class, 'verifyEmail'])->name('verify');
-    // Route pour envoyer l'email de confirmation de fiche creer
-    // route::post('company/verify', [CompanyController::class, 'sendEmail'])->name('sheetok');
-    // Route::post('company', [CompanyController::class, 'sendEmail'])->name('sheetok');
     Route::post('company', [CompanyController::class, 'store']);
     Route::put(
         'company/{company}',

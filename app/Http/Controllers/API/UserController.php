@@ -8,7 +8,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     type="object",
+ *     required={"name_user", "email", "id_role"},
+ *     @OA\Property(property="id", type="integer", example=1, description="ID de l'utilisateur"),
+ *     @OA\Property(property="name_user", type="string", example="Nom d'utilisateur", description="Nom de l'utilisateur"),
+ *     @OA\Property(property="email", type="string", example="user@example.com", description="Email de l'utilisateur"),
+ *     @OA\Property(property="id_role", type="integer", example=1, description="ID du rôle de l'utilisateur"),
+ *     @OA\Property(property="picture_user", type="string", example="profile.jpg", description="Nom du fichier de l'image de l'utilisateur"),
+ *     @OA\Property(property="created_at", type="string", format="date-time", description="Date de création"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date de mise à jour"),
+ * )
+ */
 class UserController extends Controller
 {
     public function __construct(User $user)
@@ -17,7 +30,25 @@ class UserController extends Controller
     }
 
     /**
-     * Get the currently authenticated user.
+     * @OA\Get(
+     *     path="/currentuser",
+     *     summary="Obtenir l'utilisateur authentifié",
+     *     tags={"Users"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Utilisateur récupéré avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="meta", type="object",
+     *                 @OA\Property(property="code", type="integer", example=200),
+     *                 @OA\Property(property="status", type="string", example="success"),
+     *                 @OA\Property(property="message", type="string", example="User fetched successfully!")
+     *             ),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="user", ref="#/components/schemas/User")
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function currentUser(Request $request)
     {
@@ -34,7 +65,16 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the users.
+     * @OA\Get(
+     *     path="/users",
+     *     summary="Obtenir la liste des utilisateurs",
+     *     tags={"Users"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste des utilisateurs",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User"))
+     *     )
+     * )
      */
     public function index()
     {
@@ -45,7 +85,22 @@ class UserController extends Controller
     }
 
     /**
-     * Display a specific user.
+     * @OA\Get(
+     *     path="/users/{id}",
+     *     summary="Obtenir un utilisateur par ID",
+     *     tags={"Users"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Utilisateur trouvé",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     )
+     * )
      */
     public function show(User $user)
     {
@@ -53,11 +108,35 @@ class UserController extends Controller
     }
 
     /**
-     * Update a user in the database.
+     * @OA\Put(
+     *     path="/users/{id}",
+     *     summary="Mettre à jour un utilisateur",
+     *     tags={"Users"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name_user", "email", "id_role"},
+     *             @OA\Property(property="name_user", type="string", example="Nom d'utilisateur"),
+     *             @OA\Property(property="email", type="string", example="user@example.com"),
+     *             @OA\Property(property="id_role", type="integer", example=1),
+     *             @OA\Property(property="picture_user", type="string", format="binary")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Utilisateur mis à jour avec succès",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     )
+     * )
      */
     public function update(Request $request, User $user)
     {
-        // dd($request);
         // Validate the request inputs
         $request->validate([
             'name_user' => 'required',
@@ -65,6 +144,7 @@ class UserController extends Controller
             'id_role' => 'required',
             'picture_user' => 'nullable',
         ]);
+        
         $filename =  $user->picture_user;
         // Handle file upload and delete old file
         if ($request->hasFile('picture_user')) {
@@ -78,7 +158,7 @@ class UserController extends Controller
             $request->file('picture_user')->storeAs('public/uploads/users', $filename);
             $user->picture_user = $filename;
         }
-        // Update user  data
+        // Update user data
         $user->update([
             'name_user' => $request->name_user,
             'email' => $request->email,
@@ -94,7 +174,24 @@ class UserController extends Controller
     }
 
     /**
-     * Remove a user from the database.
+     * @OA\Delete(
+     *     path="/users/{id}",
+     *     summary="Supprimer un utilisateur",
+     *     tags={"Users"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Utilisateur supprimé avec succès",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="string", example="Delete OK")
+     *         )
+     *     )
+     * )
      */
     public function destroy(User $user)
     {
@@ -111,4 +208,6 @@ class UserController extends Controller
             'status' => 'Delete OK',
         ], 200);
     }
+
+   
 }
